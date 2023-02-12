@@ -1,5 +1,5 @@
 import { useFetchData, fetchDelete } from "../Hooks/useFetchData";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import AddProductForm from "./AddProductForm";
 import Grid from "./Grid/Grid";
 import GridButton from "./Grid/GridButton";
@@ -16,6 +16,7 @@ function ProductsGrid(props) {
     const [productTypesFilter, setProductTypesFilter] = useState([]);
     const [nameFilter, setNameFilter] = useState('');
     const [descriptionFilter, setDescriptionFilter] = useState('');
+    let setFiltersTimeout = useRef();
 
     const productFetchParams = {
         PageIndex: page,
@@ -68,7 +69,12 @@ function ProductsGrid(props) {
 
     useEffect(() => {
         fetchProducts(`Product`, productFetchParams)
-    }, [page, productTypesFilter, nameFilter, descriptionFilter])
+    }, [page])
+
+    useEffect(() => {
+        clearTimeout(setFiltersTimeout.current);
+        setFiltersTimeout.current = setTimeout(() => fetchProducts(`Product`, productFetchParams), 500);
+    }, [productTypesFilter, nameFilter, descriptionFilter])
 
     let selectedProduct = products ? products.values.find(x => x.id == selectedProductID) : 0;
 
