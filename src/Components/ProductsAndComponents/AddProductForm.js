@@ -1,6 +1,6 @@
 import { Formik, Field, Form, ErrorMessage } from "formik";
-import { fetchPost, useFetchData } from "../Hooks/useFetchData"
-import { PopupsListContext } from "./PopupsListContext";
+import { fetchPost, useFetchData } from "../../Hooks/useFetchData"
+import { PopupsListContext } from "../PopupsListContext";
 import { useContext } from "react";
 
 function AddProductForm(props) {

@@ -1,13 +1,13 @@
 import { useContext, useEffect, useState } from "react";
-import { useFetchData, fetchPut, fetchDelete } from "../Hooks/useFetchData";
+import { useFetchData, fetchPut, fetchDelete } from "../../Hooks/useFetchData";
 import AddComponentForm from "./AddComponentForm";
-import { SelectedProductIDContext } from "./Contexts";
-import Grid from "./Grid/Grid";
-import GridButton from "./Grid/GridButton";
-import { PopupsListContext } from "./PopupsListContext";
+import { SelectedProductIDContext } from "../Contexts";
+import Grid from "../Grid/Grid";
+import GridButton from "../Grid/GridButton";
+import { PopupsListContext } from "../PopupsListContext";
 import { CheckLg, XLg, Plus, PencilSquare, Save, Trash } from 'react-bootstrap-icons';
-import ConfirmPopup from "./ConfirmPopup";
-import SelectedRowsContext from "./Grid/SelectedRowsContext";
+import ConfirmPopup from "../ConfirmPopup";
+import SelectedRowsContext from "../Grid/SelectedRowsContext";
 
 function ComponentsGrid(props) {
     const [editMode, setEditMode] = useState(false);

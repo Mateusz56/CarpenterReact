@@ -1,6 +1,6 @@
 import { Formik, Field, Form } from "formik";
-import { fetchPost, useFetchData } from "../Hooks/useFetchData"
-import { PopupsListContext } from "./PopupsListContext";
+import { fetchPost, useFetchData } from "../../Hooks/useFetchData"
+import { PopupsListContext } from "../PopupsListContext";
 import { useContext } from "react";
 
 function AddComponentForm(props) {

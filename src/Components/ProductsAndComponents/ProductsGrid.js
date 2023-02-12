@@ -1,14 +1,14 @@
-import { useFetchData, fetchDelete } from "../Hooks/useFetchData";
+import { useFetchData, fetchDelete } from "../../Hooks/useFetchData";
 import { useContext, useEffect, useRef, useState } from "react";
 import AddProductForm from "./AddProductForm";
-import Grid from "./Grid/Grid";
-import GridButton from "./Grid/GridButton";
-import { PopupsListContext } from "./PopupsListContext";
+import Grid from "../Grid/Grid";
+import GridButton from "../Grid/GridButton";
+import { PopupsListContext } from "../PopupsListContext";
 import EditProductForm from "./EditProductForm";
-import ConfirmPopup from "./ConfirmPopup";
-import { SelectedProductIDContext } from "./Contexts";
-import { Pencil, Plus, Trash } from "../../../node_modules/react-bootstrap-icons/dist/index";
-import SelectedRowsContext from "./Grid/SelectedRowsContext";
+import ConfirmPopup from "../ConfirmPopup";
+import { SelectedProductIDContext } from "../Contexts";
+import { Pencil, Plus, Trash } from "../../../../node_modules/react-bootstrap-icons/dist/index";
+import SelectedRowsContext from "../Grid/SelectedRowsContext";
 
 function ProductsGrid(props) {
     const pageSize = 15;

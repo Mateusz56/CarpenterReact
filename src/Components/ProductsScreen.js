@@ -1,6 +1,6 @@
 import Title from './Title';
-import ProductsGrid from './ProductsGrid';
-import ComponentsGrid from './ComponentsGrid';
+import ProductsGrid from './ProductsAndComponents/ProductsGrid';
+import ComponentsGrid from './ProductsAndComponents/ComponentsGrid';
 import { useContext, useState } from 'react';
 import { SelectedProductIDContext } from './Contexts';
 
