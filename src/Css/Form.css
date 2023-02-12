@@ -9,3 +9,14 @@
     text-align: center;
     margin: 5px;
 }
+
+.Form .Error {
+    color: var(--lightRed);
+    white-space: pre-line;
+}
+
+.Form form {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+}
