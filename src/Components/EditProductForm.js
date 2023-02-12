@@ -34,7 +34,7 @@ function EditProductForm(props) {
                     <br />
                     <label htmlFor="productType">Product type</label>
                     <Field id="productType" name="productType" as="select">
-                        {Object.keys(data).map(x => <option value={x}>{data[x]}</option>)}
+                        {data ? Object.keys(data).map(x => <option value={x}>{data[x]}</option>) : ''}
                     </Field>
 
                     <br />

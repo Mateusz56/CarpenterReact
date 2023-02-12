@@ -7,7 +7,7 @@ function AddComponentForm(props) {
     const { removePopup } = useContext(PopupsListContext);
 
     const [componentProducts] = useFetchData("Product", {ProductTypeList: 1})
-    const defaultProductID = componentProducts.values.length > 0 ? componentProducts.values[0].id : 0;
+    const defaultProductID = componentProducts ? componentProducts.values[0].id : 0;
 
     return (
         <div className="Form">
@@ -30,7 +30,7 @@ function AddComponentForm(props) {
                 <Form>
                     <label htmlFor="componentID">Name</label>
                     <Field id="componentID" name="componentID" as="select" placeholder="Select component">
-                        {componentProducts.length == 0 ? '' : componentProducts.values.map(x => <option value={x.id}>{x.name}</option>)}
+                        {componentProducts ? componentProducts.values.map(x => <option value={x.id}>{x.name}</option>) : ''}
                     </Field>
                     <br />
                     <label htmlFor="quantity">Quantity</label>

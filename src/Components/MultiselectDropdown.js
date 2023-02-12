@@ -53,7 +53,7 @@ function MultiselectDropdown(props) {
     }
 
     return (
-        <div ref={thisParent} onClick={toggleValuesDisplay} className="MultiselectDropdown"><input readOnly={true} disabled={true} style={{ width: '80%', height: '100%', border: '0', backgroundColor: 'white' }} value={createDisplayString()} />
+        <div ref={thisParent} onClick={toggleValuesDisplay} className="MultiselectDropdown"><input readOnly={true} disabled={true} style={{ width: 'calc(100% - 20px)', height: '100%', border: '0', backgroundColor: 'white' }} value={createDisplayString()} />
             <ChevronDoubleDown style={{ float: 'right', marginTop: '4px' }} />
             {showValues ?
                 ReactDOM.createPortal(<div className="DropdownValues" style={parentBounding ? { top: parentBounding.top + parentBounding.height, left: parentBounding.left, minWidth: parentBounding.width } : {}}>

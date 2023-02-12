@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 const backendUrl = 'https://localhost:7280/'
 
 export function useFetchData(endpoint, params, onSuccess) {
-    const [data, setData] = useState([])
+    const [data, setData] = useState(null)
 
     useEffect(() => {
         fetchData(endpoint, params, onSuccess);

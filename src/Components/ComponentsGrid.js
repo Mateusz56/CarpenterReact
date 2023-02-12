@@ -25,14 +25,16 @@ function ComponentsGrid(props) {
 
     useEffect(() => {
         let values = {}
-        components.forEach(x =>
-            values[x.id] = {
-                id: x.id,
-                quantity: x.quantity,
-                required: x.required,
-                edited: false
-            }
-    );
+        if (components)
+            components.forEach(x =>
+                values[x.id] = {
+                    id: x.id,
+                    quantity: x.quantity,
+                    required: x.required,
+                    edited: false
+                }
+            );
+
         setEditValues(values);
         if (selectedRows.length > 0)
             setSelectedRows([]);
@@ -62,14 +64,28 @@ function ComponentsGrid(props) {
     const quantityInput = (id) => (editValues[id] ? <input style={{ width: '50px' }} type={'number'} value={editValues[id].quantity} onChange={(event) => changeValue(id, 'quantity', +event.target.value)}></input> : '')
     const requiredInput = (id) => (editValues[id] ? <input type={'checkbox'} checked={editValues[id].required} onChange={(event => changeValue(id, 'required', event.target.checked))}></input> : '')
 
-    const data = {
-        columns: columns,
-        rows: components.map(x => {
-            return {
-                id: x.id,
-                displayData: [x.componentName, x.componentDescription, editMode ? quantityInput(x.id) : x.quantity, editMode ? requiredInput(x.id) : x.required ? <CheckLg /> : <XLg />]
+    const gridSettings = {
+        columns: {
+            Name: {
+                displayText: 'Name',
+            },
+            Description: {
+                displayText: 'Description',
+
+            },
+            Quantity: {
+                displayText: 'Quantity',
+
+            },
+            Required: {
+                displayText: 'Required',
+
             }
-        })
+        },
+        rowsData: {
+            id: components ? components.map(x => x.id) : [],
+            data: components ? components.map(x => [x.componentName, x.componentDescription, editMode ? quantityInput(x.id) : x.quantity, editMode ? requiredInput(x.id) : x.required ? <CheckLg /> : <XLg />]) : [],
+        }
     }
 
     const submitEdit = () => {
@@ -124,7 +140,7 @@ function ComponentsGrid(props) {
     return (
         <SelectedRowsContext.Provider value={{ selectedRows, setSelectedRows }} >
             <div className={"ComponentContainer"} style={props.myStyle} >
-                <Grid data={data} buttons={buttons} onSelect={(selectedRows) => setSelectedRows(selectedRows)} selectMode={editMode ? "NONE" : "MULTIPLE"}></Grid>
+                <Grid data={gridSettings} buttons={buttons} onSelect={(selectedRows) => setSelectedRows(selectedRows)} selectMode={editMode ? "NONE" : "MULTIPLE"}></Grid>
             </div>
         </SelectedRowsContext.Provider>
     )

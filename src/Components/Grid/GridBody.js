@@ -2,17 +2,19 @@ import GridFilters from './GridFilters'
 import GridRow from './GridRow'
 
 function GridBody(props) {
+    const columns = Object.values(props.data.columns);
+
     return (
         <div className="GridBody">
             <table>
                 <thead>
                     <tr>
-                        {props.data.columns.map((x, i) => <th key={i}>{x}</th>)}
+                        {columns.map((x, i) => <th style={x.width ? { width: x.width } : {}} key={i}>{x.displayText}</th>)}
                     </tr>
-                    {props.data.filters ? <GridFilters filters={props.data.filters} columns={props.data.columns} /> : ''}
+                    {columns.find(x => x.filter) ? <GridFilters filters={columns.map(x => x.filter)} /> : ''}
                 </thead>
                 <tbody>
-                    {props.data.rows.map(x => <GridRow key={x.id} id={x.id} displayData={x.displayData} onSelect={props.onSelect} selectMode={props.selectMode} />)}
+                    {props.data.rowsData.id.map((x, i) => <GridRow key={x} id={x} displayData={props.data.rowsData.data[i]} onSelect={props.onSelect} selectMode={props.selectMode} />)}
                 </tbody>
             </table>
         </div>

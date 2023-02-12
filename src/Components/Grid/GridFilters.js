@@ -15,7 +15,7 @@ function GridFilters(props) {
 
     return (
         <tr className="GridFilters">
-            {props.columns.map(x => selectInput(x, props.filters[x]))}
+            {props.filters.map((x, i) => selectInput(i, x))}
         </tr>
     )
 }
