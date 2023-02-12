@@ -1,25 +1,24 @@
-import logo from './logo.svg';
-import './App.css';
+import './Css/App.css';
+import './Css/Grid.css';
+import './Css/Form.css';
+import PopupsContainer from './Components/PopupsContainer';
+import { useState } from 'react';
+import { PopupsListContext, RemovePopup, AddPopup } from './Components/PopupsListContext';
+import ProductsScreen from './Components/ProductsScreen';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    const [popupsList, setPopups] = useState([]);
+    const addPopup = (popup) => setPopups(AddPopup(popupsList, popup));
+    const removePopup = (popup) => setPopups(RemovePopup(popupsList, popup));
+
+    return (
+        <div>
+            <PopupsListContext.Provider value={{ popupsList, addPopup, removePopup } }>
+                <PopupsContainer />
+                <ProductsScreen/>
+            </PopupsListContext.Provider>
+        </div>
+    );
 }
 
 export default App;

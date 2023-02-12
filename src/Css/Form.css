@@ -1,0 +1,11 @@
+.Form input,
+.Form select {
+    padding: 5px;
+    margin: 5px;
+}
+
+.Form .Title {
+    font-size: 125%;
+    text-align: center;
+    margin: 5px;
+}

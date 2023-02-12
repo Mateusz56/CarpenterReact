@@ -1,0 +1,139 @@
+html {
+    --blue: #24a0ed;
+    --lightBlue: #63bbf2;
+    --darkBlue: #1183ca;
+    --destauratedBlue: #389bd9;
+    --gray: #f5f5f5;
+    --red: #c23037;
+    --lightRed: #d45157;
+    --darkRed: #ae2b31;
+    --desaturatedRed: #d9656b;
+    --gray: #c4c4c4;
+    --lightGray: #e1e1e1;
+    --darkGray: #9d9d9d;
+    --desaturatedGray: #f5f5f5;
+    text-align: center;
+    background-color: var(--desaturatedGray);
+}
+
+.ComponentContainer {
+    padding: 3px;
+    margin: 0px;
+    border: black solid 1px;
+    border-radius: 0px;
+}
+
+.Button {
+    padding: 5px;
+    height: 40px;
+    min-width: 100px;
+    background-color: var(--blue);
+    border-radius: 7px;
+    border: black solid 1px;
+    margin: 5px;
+}
+
+.Button:is(:hover) {
+    background-color: var(--lightBlue);
+    cursor: pointer;
+}
+
+.Button:is(:active) {
+    background-color: var(--darkBlue);
+}
+
+.Button:disabled {
+    background-color: var(--destauratedBlue);
+    cursor: default;
+}
+
+.Button.Red {
+    background-color: var(--red);
+}
+
+.Button.Red:is(:hover) {
+    background-color: var(--lightRed);
+}
+
+.Button.Red:is(:active) {
+    background-color: var(--darkRed);
+}
+
+.Button.Red:disabled {
+    background-color: var(--desaturatedRed);
+}
+
+.Button.Gray {
+    background-color: var(--gray);
+}
+
+.Button.Gray:is(:hover) {
+    background-color: var(--lightGray);
+}
+
+.Button.Gray:is(:active) {
+    background-color: var(--darkGray);
+}
+
+.Button.Gray:disabled {
+    background-color: var(--desaturatedGray);
+}
+
+.PopupContainer {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1001;
+    padding: 15px;
+    border: black solid 1px;
+    border-radius: 7px;
+    background-color: white;
+}
+
+.PopupsContainer.Active {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background-color: rgb(173, 173, 173, 0.6);
+    z-index: 1000;
+}
+
+.DecorativeText {
+    font-weight: 700;
+}
+
+.Title {
+    font-size: 150%;
+    font-weight: 600;
+    padding: 5px;
+    height: 32px;
+}
+
+.MultiselectDropdown {
+    width: 90%;
+    border: black solid 1px;
+    padding: 5px;
+    margin-left: auto;
+    margin-right: auto;
+    min-height: 21px;
+}
+
+.DropdownValues {
+    position: absolute;
+    background-color: white;
+    min-width: 100px;
+    z-index: 100;
+}
+
+.DropdownValues div {
+    padding: 3px;
+    border: black solid;
+    border-width: 0 1px 1px 1px;
+}
+
+.DropdownValues div input[type=checkbox] {
+    float: left;
+    width: 16px;
+    height: 16px;
+}
