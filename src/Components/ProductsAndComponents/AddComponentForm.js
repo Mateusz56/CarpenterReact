@@ -14,7 +14,7 @@ function AddComponentForm(props) {
             <div className="Title">Add component</div>
             <Formik
                 validateOnChange={false}
-                valudateOnBlue={false}
+                valudateOnBlur={false}
                 initialValues={{ componentID: 0, quantity: "", required: false }}
                 onSubmit={(values, { setFieldError }) => fetchPost('ProductComponent', {
                     productID: props.productID,

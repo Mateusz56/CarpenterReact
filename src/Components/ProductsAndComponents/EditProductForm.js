@@ -32,11 +32,9 @@ function EditProductForm(props) {
                         <label htmlFor="name">Name</label>
                         <Field id="name" name="name" placeholder="Product name" />
                         {errors.Name ? <div className="Error">{errors.Name.join('\n')}</div> : <br />}
-                        <br />
                         <label htmlFor="description">Description</label>
                         <Field id="description" name="description" placeholder="Product description" />
                         {errors.Description ? <div className="Error">{errors.Description.join('\n')}</div> : <br />}
-                        <br />
                         <label htmlFor="productType">Product type</label>
                         <Field id="productType" name="productType" as="select">
                             {data ? Object.keys(data).map(x => <option value={x}>{data[x]}</option>) : ''}

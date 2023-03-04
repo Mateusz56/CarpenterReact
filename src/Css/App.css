@@ -137,3 +137,7 @@ html {
     width: 16px;
     height: 16px;
 }
+
+input, select {
+    border: black solid 1px;
+}
