@@ -5,6 +5,7 @@ import PopupsContainer from './Components/PopupsContainer';
 import { useState } from 'react';
 import { PopupsListContext, RemovePopup, AddPopup } from './Components/PopupsListContext';
 import ProductsScreen from './Components/ProductsScreen';
+import ReceivingScreen from './Components/ReceivingScreen';
 
 function App() {
     const [popupsList, setPopups] = useState([]);
@@ -15,7 +16,8 @@ function App() {
         <div>
             <PopupsListContext.Provider value={{ popupsList, addPopup, removePopup } }>
                 <PopupsContainer />
-                <ProductsScreen/>
+                <ReceivingScreen />
+               {/*<ProductsScreen/>*/}
             </PopupsListContext.Provider>
         </div>
     );

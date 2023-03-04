@@ -23,7 +23,10 @@ function GridRow(props) {
     }
 
     return (
-        <tr className={selectedRows.includes(props.id) ? "Selected" : ""} onClick={() => toggleSelectedRow(props.id)}>
+        <tr className={selectedRows.includes(props.id) ? "Selected" : ""} onClick={(event) => {
+            if(!['SELECT', 'INPUT'].includes(event.target.tagName))
+                toggleSelectedRow(props.id);
+        }}>
             {props.displayData.map((x, i) => <GridCell key={i} value={x} />) }
         </tr>
     )

@@ -4,11 +4,14 @@ import GridHeader from "./GridHeader";
 import SelectedRowsContext from "./SelectedRowsContext"
 
 function Grid(props) {
+    const topButtons = props.buttons.filter(x => x.props.position === 'header')
+    const bottomButtons = props.buttons.filter(x => x.props.position === 'footer')
+    
     return (
         <div className={"Grid"}>
-            <GridHeader buttons={props.buttons.filter(x => x.props.position === 'header')} />
+            {topButtons.length > 0 ? <GridHeader buttons={topButtons}/> : ''} 
             <GridBody data={props.data} onSelect={props.onSelect} selectMode={props.selectMode} />
-            <GridHeader buttons={props.buttons.filter(x => x.props.position === 'footer')} paging={props.paging} />
+            {bottomButtons.length > 0 || props.paging ? <GridHeader buttons={bottomButtons} paging={props.paging} /> : ''}
         </div>
     )
 }
