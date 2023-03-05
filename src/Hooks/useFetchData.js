@@ -80,6 +80,22 @@ export async function fetchPut(endpoint, body, onSuccess, onError) {
         onError(await response.json())
 }
 
+export async function fetchPatch(endpoint, body, onSuccess, onError) {
+    const response = await fetch(backendUrl + endpoint, {
+        method: "PATCH",
+        mode: "cors",
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(body)
+    })
+
+    if (response.ok)
+        onSuccess(await response.json())
+    else
+        onError(await response.json())
+}
+
 export async function fetchDelete(endpoint, body, onSuccess, onError) {
     const response = await fetch(backendUrl + endpoint, {
         method: "DELETE",
