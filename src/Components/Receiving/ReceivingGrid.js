@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { Pencil, Plus } from "../../../../node_modules/react-bootstrap-icons/dist/index";
-import { useFetchData } from "../../Hooks/useFetchData";
+import { Archive, CheckLg, CheckSquare, Pencil, Plus, X, XLg } from "../../../../node_modules/react-bootstrap-icons/dist/index";
+import { fetchPatch, fetchPost, useFetchData } from "../../Hooks/useFetchData";
 import Grid from "../Grid/Grid";
 import GridButton from "../Grid/GridButton";
 import SelectedRowsContext from "../Grid/SelectedRowsContext";
@@ -24,10 +24,12 @@ function ReceivingGrid(props) {
     const statusColors = {
         [ReceivingDocumentStatus.New]: 'var(--pastelYellow)',
         [ReceivingDocumentStatus.Accepted]: 'var(--pastelGreen)',
-        [ReceivingDocumentStatus.Rejected]: 'var(--pasteLRed)',
+        [ReceivingDocumentStatus.Rejected]: 'var(--pastelRed)',
         [ReceivingDocumentStatus.Modified]: 'var(--pastelOrange)',
         [ReceivingDocumentStatus.Archived]: 'var(--gray)'
     }
+
+    const refreshDetail = () => fetchDocuments('ReceivingDocument', fetchDocumentsParams)
 
     const openDetails = (id) => {
         addPopup(<ReceivingDetails id={Date.now()} documentId={id}></ReceivingDetails>)
@@ -59,9 +61,26 @@ function ReceivingGrid(props) {
         }
     }
 
+    const anyRowSelected = (rows) => rows.length == 0
+
+    const validate = (id) => {
+        fetchPost(`ReceivingDocument/${id}`, null, refreshDetail)
+    }
+
+    const reject = (id) => {
+        fetchPatch(`ReceivingDocument/${id}`, null, refreshDetail)
+    }
+
+    const archive = (id) => {
+        fetchPatch(`ReceivingDocument/archive/${id}`, null, refreshDetail)
+    }
+
     const buttons = [
-        <GridButton key={0} floatRight={false} position={'header'} onClick={() => addPopup(<AddReceivingForm id={Date.now()} refreshGrid={() => fetchDocuments('ReceivingDocument', fetchDocumentsParams)}></AddReceivingForm>)}>{<Plus size={25} />}</GridButton>,
-        <GridButton key={1} floatRight={true} position={'header'} disabledCheck={(rows) => rows.length == 0} onClick={() => addPopup(<EditReceivingForm id={Date.now()} documentId={selectedRows[0]} refreshGrid={() => fetchDocuments('ReceivingDocument', fetchDocumentsParams)}></EditReceivingForm>)}>{<Pencil size={16} />}</GridButton>,
+        <GridButton key={0} floatRight={false} position={'header'} onClick={() => addPopup(<AddReceivingForm id={Date.now()} refreshGrid={refreshDetail}></AddReceivingForm>)}>{<Plus size={25} />}</GridButton>,
+        <GridButton key={1} floatRight={true} position={'header'} disabledCheck={anyRowSelected} onClick={() => addPopup(<EditReceivingForm id={Date.now()} documentId={selectedRows[0]} refreshGrid={refreshDetail}></EditReceivingForm>)}>{<Pencil size={16} />}</GridButton>,
+        <GridButton className={'Gray'} key={2} floatRight={true} position={'header'} disabledCheck={anyRowSelected} onClick={() => archive(selectedRows[0])}><Archive size={16} /></GridButton>,
+        <GridButton className={'Red'} key={2} floatRight={true} position={'header'} disabledCheck={anyRowSelected} onClick={() => reject(selectedRows[0])}><X size={25} /></GridButton>,
+        <GridButton className={'Green'} key={3} floatRight={true} position={'header'} disabledCheck={anyRowSelected} onClick={() => validate(selectedRows[0])}><CheckLg size={25} /></GridButton>,
     ]
 
     return (
