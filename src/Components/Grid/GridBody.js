@@ -14,7 +14,7 @@ function GridBody(props) {
                     {columns.find(x => x.filter) ? <GridFilters filters={columns.map(x => x.filter)} /> : ''}
                 </thead>
                 <tbody>
-                    {props.data.rowsData.id.map((x, i) => <GridRow key={x} id={x} displayData={props.data.rowsData.data[i]} onSelect={props.onSelect} selectMode={props.selectMode} />)}
+                    {props.data.rowsData.id.map((x, i) => <GridRow key={x} id={x} displayData={props.data.rowsData.data[i]} cellStyle={props.data.rowsData.cellsStyle ? props.data.rowsData.cellsStyle[i] : null} onSelect={props.onSelect} selectMode={props.selectMode} />)}
                 </tbody>
             </table>
         </div>

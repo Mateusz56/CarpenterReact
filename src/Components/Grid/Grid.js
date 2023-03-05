@@ -4,8 +4,8 @@ import GridHeader from "./GridHeader";
 import SelectedRowsContext from "./SelectedRowsContext"
 
 function Grid(props) {
-    const topButtons = props.buttons.filter(x => x.props.position === 'header')
-    const bottomButtons = props.buttons.filter(x => x.props.position === 'footer')
+    const topButtons = props.buttons ? props.buttons.filter(x => x.props.position === 'header') : []
+    const bottomButtons = props.buttons ? props.buttons.filter(x => x.props.position === 'footer') : []
     
     return (
         <div className={"Grid"}>

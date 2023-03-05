@@ -112,3 +112,8 @@ div.Grid {
     height: 30px;
     padding: 5px;
 }
+
+.Grid tr td button {
+    width: 90%;
+    padding: 5px;
+}

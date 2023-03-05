@@ -6,6 +6,14 @@ export const ReceivingDocumentStatus = {
     Archived: 4
 }
 
+export const ReceivingDocumentStatusDescription = {
+    0: 'New',
+    1: 'Accepted',
+    2: 'Rejected',
+    3: 'Modified',
+    4: 'Archived'
+}
+
 export const ProductType = {
     Product: 0,
     Component: 1,

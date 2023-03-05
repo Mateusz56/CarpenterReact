@@ -7,7 +7,7 @@ function AddComponentForm(props) {
     const { removePopup } = useContext(PopupsListContext);
 
     const [componentProducts] = useFetchData("Product", { ProductTypeList: 1 })
-    const defaultProductID = componentProducts ? componentProducts.values[0].id : 0;
+    const defaultProductID = componentProducts && componentProducts.values.length > 0 ? componentProducts.values[0].id : 0;
 
     return (
         <div className="Form" style={{ width: '350px' }}>

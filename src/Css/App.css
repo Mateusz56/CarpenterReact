@@ -14,6 +14,10 @@ html {
     --desaturatedGray: #f5f5f5;
     text-align: center;
     background-color: var(--desaturatedGray);
+    --pastelYellow: #fdfd96;
+    --pastelOrange: #ffb347;
+    --pastelRed: #ff6961;
+    --pastelGreen: #77DD77;
 }
 
 .ComponentContainer {

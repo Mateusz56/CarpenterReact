@@ -16,10 +16,9 @@ function ComponentsGrid(props) {
     const [editValues, setEditValues] = useState([]);
     const [selectedRows, setSelectedRows] = useState([]);
     const { addPopup } = useContext(PopupsListContext);
-    const columns = ['Name', 'Description', 'Quantity', 'Required'];
 
     useEffect(() => {
-        fetchComponents(`ProductComponent?productID=${selectedProductID}`);
+        fetchComponents(`ProductComponent`, { ProductID: selectedProductID });
         setSelectedRows([]);
     }, [selectedProductID])
 
@@ -91,11 +90,11 @@ function ComponentsGrid(props) {
     const submitEdit = () => {
         fetchPut('ProductComponent',
             Object.values(editValues).filter(x => x.edited),
-            () => fetchComponents(`ProductComponent?productID=${selectedProductID}`, () => changeEditMode(false)));
+            () => fetchComponents(`ProductComponent`, {ProductID: selectedProductID}, () => changeEditMode(false)));
     }
 
     const onDelete = () => {
-        fetchDelete('ProductComponent', selectedRows, () => fetchComponents(`ProductComponent?productID=${selectedProductID}`));
+        fetchDelete('ProductComponent', selectedRows, () => fetchComponents(`ProductComponent`, { ProductID: selectedProductID }));
     }
 
     let buttons = [

@@ -1,17 +1,22 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import ReceivingForm from "./ReceivingForm"
 import { Dash, Plus } from "../../../../node_modules/react-bootstrap-icons/dist/index";
 import { ProductType } from "../../Enums";
-import { fetchPost, useFetchData } from "../../Hooks/useFetchData";
+import { fetchPost, fetchPut, useFetchData } from "../../Hooks/useFetchData";
 import GridButton from "../Grid/GridButton";
 import SelectedRowsContext from "../Grid/SelectedRowsContext";
 import { PopupsListContext } from "../PopupsListContext";
 
-function AddReceivingForm(props) {
-    const [lines, setLines] = useState([]);
+function EditReceivingForm(props) {
     const [selectedRows, setSelectedRows] = useState([]);
     const [products] = useFetchData('Product', { ProductTypeList: ProductType.Component })
+    const [document] = useFetchData(`ReceivingDocument/${props.documentId}`)
+    const [lines, setLines] = useState([]);
     const { removePopup } = useContext(PopupsListContext);
+
+    useEffect(() => {
+        setLines(document ? document.lines.map(x => { return { ProductID: x.product.id, Quantity: x.quantity } }) : [])
+    }, [document])
 
     const addRow = () => setLines([...lines, { ProductID: 0, Quantity: 0 }])
     const removeRow = () => {
@@ -38,7 +43,7 @@ function AddReceivingForm(props) {
     }
 
     const submit = () => {
-        fetchPost('ReceivingDocument', {
+        fetchPut(`ReceivingDocument/${props.documentId}`, {
             productQuantities: lines.map(x => {
                 return {
                     productId: x.ProductID,
@@ -55,9 +60,9 @@ function AddReceivingForm(props) {
 
     return (
         <SelectedRowsContext.Provider value={{ selectedRows, setSelectedRows }} >
-            <ReceivingForm id={props.id} gridButtons={gridButtons} refreshGrid={props.refreshGrid} rowsData={rowsData} submit={submit} selectMode={'MULTIPLE'} title={'Create receiving document'} />
+            <ReceivingForm id={props.id} gridButtons={gridButtons} refreshGrid={props.refreshGrid} rowsData={rowsData} submit={submit} selectMode={'MULTIPLE'} title={'Edit receiving document'} />
         </SelectedRowsContext.Provider>
-        )
+    )
 }
 
-export default AddReceivingForm
+export default EditReceivingForm

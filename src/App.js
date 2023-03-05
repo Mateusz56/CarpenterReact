@@ -17,7 +17,7 @@ function App() {
             <PopupsListContext.Provider value={{ popupsList, addPopup, removePopup } }>
                 <PopupsContainer />
                 <ReceivingScreen />
-               {/*<ProductsScreen/>*/}
+               <ProductsScreen/>
             </PopupsListContext.Provider>
         </div>
     );
