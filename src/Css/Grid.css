@@ -107,6 +107,11 @@ div.Grid {
     width: 90%;
 }
 
+.Grid .GridFilters input.Range {
+    width: 45%;
+    box-sizing: border-box;
+}
+
 .Grid tr select {
     width: 100%;
     height: 30px;

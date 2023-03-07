@@ -9,7 +9,7 @@ function MultiselectDropdown(props) {
 
     const updateParentBounding = () => setParentBounding(thisParent.current ? thisParent.current.getBoundingClientRect() : '');
     const toggleValuesDisplay = (event) => {
-        if (event.target != thisParent.current && event.target.parentElement != thisParent.current)
+        if (event.target != thisParent.current && event.target.parentElement != thisParent.current && event.target.parentElement.parentElement != thisParent.current)
             return;
 
         if (!showValues)
@@ -53,11 +53,11 @@ function MultiselectDropdown(props) {
     }
 
     return (
-        <div ref={thisParent} onClick={toggleValuesDisplay} className="MultiselectDropdown"><input readOnly={true} disabled={true} style={{ width: 'calc(100% - 20px)', height: '100%', border: '0', backgroundColor: 'white' }} value={createDisplayString()} />
+        <div ref={thisParent} onClick={toggleValuesDisplay} className="MultiselectDropdown"><input readOnly={true} disabled={true} style={{ width: 'calc(100% - 20px)', height: '100%', border: '0', backgroundColor: 'white', pointerEvents: 'none' }} value={createDisplayString()} />
             <ChevronDoubleDown style={{ float: 'right', marginTop: '4px' }} />
             {showValues ?
                 ReactDOM.createPortal(<div className="DropdownValues" style={parentBounding ? { top: parentBounding.top + parentBounding.height, left: parentBounding.left, minWidth: parentBounding.width } : {}}>
-                    {props.values.map(x => <div key={x[0]}><input checked={props.parentStateValue.includes(x[0])} onChange={(event) => setParameters(x[0], event.target.checked)} style={{ float: 'left' }} type={'checkbox'} /> {x[1]}</div>)}
+                    {props.values.map(x => <div onClick={() => setParameters(x[0], !props.parentStateValue.includes(x[0]))} key={x[0]}><input checked={props.parentStateValue.includes(x[0])} onChange={(event) => setParameters(x[0], event.target.checked)} style={{ float: 'left' }} type={'checkbox'} /> {x[1]}</div>)}
                 </div>, document.getElementById('root'))
                 : ''}
         </div>
