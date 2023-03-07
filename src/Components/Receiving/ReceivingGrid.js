@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Archive, CheckLg, CheckSquare, Pencil, Plus, X, XLg } from "../../../../node_modules/react-bootstrap-icons/dist/index";
 import { fetchPatch, fetchPost, useFetchData } from "../../Hooks/useFetchData";
 import Grid from "../Grid/Grid";
@@ -17,7 +17,23 @@ function ReceivingGrid(props) {
 
     const [selectedRows, setSelectedRows] = useState([]);
 
-    let fetchDocumentsParams
+    const [idFilter, setIdFilter] = useState({ min: '', max: '' })
+    const [createdDateFilter, setCreatedDateFilter] = useState({ min: '', max: '' })
+    const [validationDateFilter, setValidationDateFilter] = useState({ min: '', max: '' })
+    const [statusListFilter, setStatusListFilter] = useState([])
+    let setFiltersTimeout = useRef();
+
+    let fetchDocumentsParams = {
+        PageIndex: page,
+        PageSize: pageSize,
+        IdMin: idFilter.min,
+        IdMax: idFilter.max,
+        CreatedBefore: createdDateFilter.max,
+        CreatedAfter: createdDateFilter.min,
+        ValidatedBefore: validationDateFilter.max,
+        ValidatedAfter: validationDateFilter.min,
+        StatusList: statusListFilter
+    }
     const [documents, fetchDocuments] = useFetchData("ReceivingDocument", fetchDocumentsParams)
     const { addPopup } = useContext(PopupsListContext);
 
@@ -31,6 +47,11 @@ function ReceivingGrid(props) {
 
     const refreshDetail = () => fetchDocuments('ReceivingDocument', fetchDocumentsParams)
 
+    useEffect(() => {
+        clearTimeout(setFiltersTimeout.current);
+        setFiltersTimeout.current = setTimeout(refreshDetail, 500);
+    }, [idFilter, createdDateFilter, validationDateFilter, statusListFilter])
+
     const openDetails = (id) => {
         addPopup(<ReceivingDetails id={Date.now()} documentId={id}></ReceivingDetails>)
     }
@@ -39,19 +60,47 @@ function ReceivingGrid(props) {
         columns: {
             ID: {
                 displayText: 'ID',
+                filter: {
+                    type: 'RANGE',
+                    subtype: 'number',
+                    stateValue: idFilter,
+                    setStateValue: setIdFilter
+                },
+                width: '10%'
             },
             CreatedDate: {
                 displayText: 'Created on',
+                filter: {
+                    type: 'RANGE',
+                    subtype: 'date',
+                    stateValue: createdDateFilter,
+                    setStateValue: setCreatedDateFilter
+                },
+                width: '30%'
             },
             ValidationDate: {
                 displayText: 'Validated on',
+                filter: {
+                    type: 'RANGE',
+                    subtype: 'date',
+                    stateValue: validationDateFilter,
+                    setStateValue: setValidationDateFilter
+                },
+                width: '30%'
             },
             Status: {
                 displayText: 'Status',
+                filter: {
+                    type: 'MULTIPLE',
+                    values: Object.values(ReceivingDocumentStatus).map(x => [x, ReceivingDocumentStatusDescription[x]]),
+                    stateValue: statusListFilter,
+                    setStateValue: setStatusListFilter
+                },
+                width: '20%'
             },
             DetailsButton: {
                 displayText: '',
-                width: '150px'
+                width: '10%'
             }
         },
         rowsData: {
@@ -79,8 +128,8 @@ function ReceivingGrid(props) {
         <GridButton key={0} floatRight={false} position={'header'} onClick={() => addPopup(<AddReceivingForm id={Date.now()} refreshGrid={refreshDetail}></AddReceivingForm>)}>{<Plus size={25} />}</GridButton>,
         <GridButton key={1} floatRight={true} position={'header'} disabledCheck={anyRowSelected} onClick={() => addPopup(<EditReceivingForm id={Date.now()} documentId={selectedRows[0]} refreshGrid={refreshDetail}></EditReceivingForm>)}>{<Pencil size={16} />}</GridButton>,
         <GridButton className={'Gray'} key={2} floatRight={true} position={'header'} disabledCheck={anyRowSelected} onClick={() => archive(selectedRows[0])}><Archive size={16} /></GridButton>,
-        <GridButton className={'Red'} key={2} floatRight={true} position={'header'} disabledCheck={anyRowSelected} onClick={() => reject(selectedRows[0])}><X size={25} /></GridButton>,
-        <GridButton className={'Green'} key={3} floatRight={true} position={'header'} disabledCheck={anyRowSelected} onClick={() => validate(selectedRows[0])}><CheckLg size={25} /></GridButton>,
+        <GridButton className={'Red'} key={3} floatRight={true} position={'header'} disabledCheck={anyRowSelected} onClick={() => reject(selectedRows[0])}><X size={25} /></GridButton>,
+        <GridButton className={'Green'} key={4} floatRight={true} position={'header'} disabledCheck={anyRowSelected} onClick={() => validate(selectedRows[0])}><CheckLg size={25} /></GridButton>,
     ]
 
     return (
