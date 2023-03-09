@@ -12,7 +12,7 @@ import { ReceivingDocumentStatusDescription, ReceivingDocumentStatus } from "../
 import ReceivingDetails from "./ReceivingDetails";
 
 function ReceivingGrid(props) {
-    const pageSize = 4;
+    const pageSize = 16;
     const [page, setPage] = useState(1);
 
     const [selectedRows, setSelectedRows] = useState([]);

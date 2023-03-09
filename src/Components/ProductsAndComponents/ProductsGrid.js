@@ -11,7 +11,7 @@ import { ArrowClockwise, Pencil, Plus, Trash } from "../../../../node_modules/re
 import SelectedRowsContext from "../Grid/SelectedRowsContext";
 
 function ProductsGrid(props) {
-    const pageSize = 15;
+    const pageSize = 16;
     const [page, setPage] = useState(1);
     const [productTypesFilter, setProductTypesFilter] = useState([]);
     const [nameFilter, setNameFilter] = useState('');
