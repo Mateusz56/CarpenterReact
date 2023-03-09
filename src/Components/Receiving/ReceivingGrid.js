@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Archive, CheckLg, CheckSquare, Pencil, Plus, X, XLg } from "../../../../node_modules/react-bootstrap-icons/dist/index";
+import { Archive, ArrowClockwise, CheckLg, CheckSquare, Pencil, Plus, X, XLg } from "../../../../node_modules/react-bootstrap-icons/dist/index";
 import { fetchPatch, fetchPost, useFetchData } from "../../Hooks/useFetchData";
 import Grid from "../Grid/Grid";
 import GridButton from "../Grid/GridButton";
@@ -12,7 +12,7 @@ import { ReceivingDocumentStatusDescription, ReceivingDocumentStatus } from "../
 import ReceivingDetails from "./ReceivingDetails";
 
 function ReceivingGrid(props) {
-    const pageSize = 15;
+    const pageSize = 4;
     const [page, setPage] = useState(1);
 
     const [selectedRows, setSelectedRows] = useState([]);
@@ -22,6 +22,11 @@ function ReceivingGrid(props) {
     const [validationDateFilter, setValidationDateFilter] = useState({ min: '', max: '' })
     const [statusListFilter, setStatusListFilter] = useState([])
     let setFiltersTimeout = useRef();
+
+    const validateButtonAvailableStatuses = [ReceivingDocumentStatus.New, ReceivingDocumentStatus.Modified]
+    const rejectButtonAvailableStatuses = [ReceivingDocumentStatus.New, ReceivingDocumentStatus.Modified]
+    const archiveButtonAvailableStatuses = [ReceivingDocumentStatus.New, ReceivingDocumentStatus.Modified, ReceivingDocumentStatus.Rejected]
+    const editButtonAvailableStatuses = [ReceivingDocumentStatus.New, ReceivingDocumentStatus.Modified, ReceivingDocumentStatus.Rejected]
 
     let fetchDocumentsParams = {
         PageIndex: page,
@@ -34,7 +39,9 @@ function ReceivingGrid(props) {
         ValidatedAfter: validationDateFilter.min,
         StatusList: statusListFilter
     }
-    const [documents, fetchDocuments] = useFetchData("ReceivingDocument", fetchDocumentsParams)
+    const [documentsFetchedObj, fetchDocuments] = useFetchData("ReceivingDocument", fetchDocumentsParams)
+    const documents = documentsFetchedObj ? documentsFetchedObj.values : null
+
     const { addPopup } = useContext(PopupsListContext);
 
     const statusColors = {
@@ -51,6 +58,10 @@ function ReceivingGrid(props) {
         clearTimeout(setFiltersTimeout.current);
         setFiltersTimeout.current = setTimeout(refreshDetail, 500);
     }, [idFilter, createdDateFilter, validationDateFilter, statusListFilter])
+
+    useEffect(() => {
+        refreshDetail()
+    }, [page])
 
     const openDetails = (id) => {
         addPopup(<ReceivingDetails id={Date.now()} documentId={id}></ReceivingDetails>)
@@ -110,7 +121,25 @@ function ReceivingGrid(props) {
         }
     }
 
-    const anyRowSelected = (rows) => rows.length == 0
+    let maxPage = documentsFetchedObj ? Math.ceil(documentsFetchedObj.count / pageSize) : 1;
+    let paging = {
+        page: page,
+        setPage: (newPage) => newPage > 0 && newPage <= maxPage && setPage(newPage),
+        maxPage: maxPage
+    }
+
+    const noRowSelected = (rows) => rows.length == 0
+
+    const gridButtonDisabled = (rows, availableStatuses) => {
+        if (noRowSelected(rows) || !documents)
+            return true;
+
+        let document = documents.find(x => x.id == rows[0])
+        if (!document)
+            console.error(documents, document)
+
+        return !availableStatuses.includes(document.status)
+    }
 
     const validate = (id) => {
         fetchPost(`ReceivingDocument/${id}`, null, refreshDetail)
@@ -126,16 +155,17 @@ function ReceivingGrid(props) {
 
     const buttons = [
         <GridButton key={0} floatRight={false} position={'header'} onClick={() => addPopup(<AddReceivingForm id={Date.now()} refreshGrid={refreshDetail}></AddReceivingForm>)}>{<Plus size={25} />}</GridButton>,
-        <GridButton key={1} floatRight={true} position={'header'} disabledCheck={anyRowSelected} onClick={() => addPopup(<EditReceivingForm id={Date.now()} documentId={selectedRows[0]} refreshGrid={refreshDetail}></EditReceivingForm>)}>{<Pencil size={16} />}</GridButton>,
-        <GridButton className={'Gray'} key={2} floatRight={true} position={'header'} disabledCheck={anyRowSelected} onClick={() => archive(selectedRows[0])}><Archive size={16} /></GridButton>,
-        <GridButton className={'Red'} key={3} floatRight={true} position={'header'} disabledCheck={anyRowSelected} onClick={() => reject(selectedRows[0])}><X size={25} /></GridButton>,
-        <GridButton className={'Green'} key={4} floatRight={true} position={'header'} disabledCheck={anyRowSelected} onClick={() => validate(selectedRows[0])}><CheckLg size={25} /></GridButton>,
+        <GridButton key={1} floatRight={true} position={'header'} disabledCheck={(rows) => gridButtonDisabled(rows, editButtonAvailableStatuses)} onClick={() => addPopup(<EditReceivingForm id={Date.now()} documentId={selectedRows[0]} refreshGrid={refreshDetail}></EditReceivingForm>)}>{<Pencil size={16} />}</GridButton>,
+        <GridButton className={'Gray'} key={2} floatRight={true} position={'header'} disabledCheck={(rows) => gridButtonDisabled(rows, archiveButtonAvailableStatuses)} onClick={() => archive(selectedRows[0])}><Archive size={16} /></GridButton>,
+        <GridButton className={'Red'} key={3} floatRight={true} position={'header'} disabledCheck={(rows) => gridButtonDisabled(rows, rejectButtonAvailableStatuses)} onClick={() => reject(selectedRows[0])}><X size={25} /></GridButton>,
+        <GridButton className={'Green'} key={4} floatRight={true} position={'header'} disabledCheck={(rows) => gridButtonDisabled(rows, validateButtonAvailableStatuses)} onClick={() => validate(selectedRows[0])}><CheckLg size={25} /></GridButton>,
+        <GridButton key={5} className="Gray" floatRight={true} position={'footer'} onClick={refreshDetail}><ArrowClockwise size={20} /></GridButton>
     ]
 
     return (
         <SelectedRowsContext.Provider value={{ selectedRows, setSelectedRows }} >
             <div className={"ComponentContainer"} style={props.myStyle}>
-                <Grid data={gridSettings} buttons={buttons} singleSelect={true} selectMode={"SINGLE"}></Grid>
+                <Grid data={gridSettings} buttons={buttons} singleSelect={true} selectMode={"SINGLE"} paging={paging}></Grid>
             </div>
         </SelectedRowsContext.Provider>
     )
