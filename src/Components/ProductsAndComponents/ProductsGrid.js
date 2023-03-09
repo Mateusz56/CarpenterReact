@@ -7,7 +7,7 @@ import { PopupsListContext } from "../PopupsListContext";
 import EditProductForm from "./EditProductForm";
 import ConfirmPopup from "../ConfirmPopup";
 import { SelectedProductIDContext } from "../Contexts";
-import { Pencil, Plus, Trash } from "../../../../node_modules/react-bootstrap-icons/dist/index";
+import { ArrowClockwise, Pencil, Plus, Trash } from "../../../../node_modules/react-bootstrap-icons/dist/index";
 import SelectedRowsContext from "../Grid/SelectedRowsContext";
 
 function ProductsGrid(props) {
@@ -94,7 +94,7 @@ function ProductsGrid(props) {
     }
 
     let buttons = [
-        <GridButton key={0} className="Gray" floatRight={true} position={'footer'} onClick={() => fetchProducts("Product", productFetchParams)}>Refresh</GridButton>,
+        <GridButton key={0} className="Gray" floatRight={true} position={'footer'} onClick={() => fetchProducts("Product", productFetchParams)}><ArrowClockwise size={20} /></GridButton>,
         <GridButton key={1} floatRight={false} position={'header'} onClick={() => addPopup(<AddProductForm id={Date.now()} successCallback={() => fetchProducts("Product", productFetchParams)} />)}>{<Plus size={25} />}</GridButton>,
         <GridButton key={2} floatRight={false} position={'header'} disabledCheck={disableIfNoSelect} onClick={() => addPopup(<EditProductForm id={Date.now()} product={selectedProduct} successCallback={() => fetchProducts("Product", productFetchParams)} />)}><Pencil size={16} /></GridButton>,
         <GridButton key={3} className="Red" floatRight={true} position={'header'} disabledCheck={disableIfNoSelect} onClick={() => addPopup(<ConfirmPopup id={Date.now()} text={`Do you want to delete product: ${selectedProduct.name}`} onConfirm={onDelete} />)}><Trash size={16}/></GridButton>,
