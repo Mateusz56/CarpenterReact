@@ -36,19 +36,18 @@ export function useFetchData(endpoint, params, onSuccess) {
 
         try {
             const response = await fetch(url)
+            const json = await response.json()
 
             if (!response.ok && onError) {
                 onError(response)
             }
-            else if (!response.ok && response.errorMessage) {
-                Notifications.AddNotification('Error', response.errorMessage)
+            else if (!response.ok && json.errorMessage) {
+                Notifications.AddNotification('Error', json.errorMessage)
             }
             else if (!response.ok) {
                 throw 'UnhandledException'
             }
             else {
-                let json = await response.json()
-
                 setData(json)
                 if (onSuccess)
                     onSuccess();
@@ -63,7 +62,7 @@ export function useFetchData(endpoint, params, onSuccess) {
 async function handleResponse(response, onSuccess, onError) {
     let json = await response.json()
     if (!response.ok && onError) {
-        onError(response)
+        onError(json)
     }
     else if (!response.ok && json.errorMessage) {
         Notifications.AddNotification('Error', json.errorMessage)
