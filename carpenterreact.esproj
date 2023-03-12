@@ -12,6 +12,7 @@
     <BuildOutputFolder>$(MSBuildProjectDirectory)\build</BuildOutputFolder>
   </PropertyGroup>
   <ItemGroup>
+    <Folder Include="src\Components\Notifications\" />
     <Folder Include="src\Hooks\" />
   </ItemGroup>
 </Project>

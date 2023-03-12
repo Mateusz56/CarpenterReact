@@ -52,14 +52,23 @@ function ReceivingGrid(props) {
         [ReceivingDocumentStatus.Archived]: 'var(--gray)'
     }
 
-    const refreshDetail = () => fetchDocuments('ReceivingDocument', fetchDocumentsParams)
+    const refreshDetail = () => {
+        setSelectedRows([]);
+        fetchDocuments('ReceivingDocument', fetchDocumentsParams);
+    }
 
     useEffect(() => {
+        if (documentsFetchedObj == null)
+            return;
+
         clearTimeout(setFiltersTimeout.current);
         setFiltersTimeout.current = setTimeout(refreshDetail, 500);
     }, [idFilter, createdDateFilter, validationDateFilter, statusListFilter])
 
     useEffect(() => {
+        if (documentsFetchedObj == null)
+            return;
+
         refreshDetail()
     }, [page])
 
@@ -135,9 +144,11 @@ function ReceivingGrid(props) {
             return true;
 
         let document = documents.find(x => x.id == rows[0])
-        if (!document)
-            console.error(documents, document)
 
+        if (!document) {
+            console.error(documents, document)
+            return false
+        }
         return !availableStatuses.includes(document.status)
     }
 

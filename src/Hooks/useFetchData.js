@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import Notifications from '../Components/Notifications/Notifications';
 
 const backendUrl = 'https://localhost:7280/'
 
@@ -12,7 +13,7 @@ export function useFetchData(endpoint, params, onSuccess) {
 
     return [data, fetchData, setData];
 
-    async function fetchData(endpoint, params, onSuccess) {
+    async function fetchData(endpoint, params, onSuccess, onError) {
         if (!endpoint)
             return;
 
@@ -33,83 +34,116 @@ export function useFetchData(endpoint, params, onSuccess) {
             }
         }
 
-        const response = await fetch(url)
+        try {
+            const response = await fetch(url)
 
-        if (!response.ok) {
-            // show error
+            if (!response.ok && onError) {
+                onError(response)
+            }
+            else if (!response.ok && response.errorMessage) {
+                Notifications.AddNotification('Error', response.errorMessage)
+            }
+            else if (!response.ok) {
+                throw 'UnhandledException'
+            }
+            else {
+                let json = await response.json()
+
+                setData(json)
+                if (onSuccess)
+                    onSuccess();
+            }
         }
-        else {
-            let json = await response.json()
-
-            setData(json)
-            if (onSuccess)
-                onSuccess();
+        catch {
+            Notifications.AddNotification('Error', `Unhandled exception when loading: ${endpoint}`)
         }
     }
 }
 
-export async function fetchPost(endpoint, body, onSuccess, onError) {
-    const response = await fetch(backendUrl + endpoint, {
-        method: "POST",
-        mode: "cors",
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(body)
-    })
+async function handleResponse(response, onSuccess, onError) {
+    let json = await response.json()
+    if (!response.ok && onError) {
+        onError(response)
+    }
+    else if (!response.ok && json.errorMessage) {
+        Notifications.AddNotification('Error', json.errorMessage)
+    }
+    else if (!response.ok) {
+        throw 'UnhandledException'
+    }
+    else if (onSuccess) {
+        onSuccess(response);
+    }
+}
 
-    if (response.ok)
-        onSuccess(await response.json())
-    else
-        onError(await response.json())
+export async function fetchPost(endpoint, body, onSuccess, onError) {
+    try {
+        const response = await fetch(backendUrl + endpoint, {
+            method: "POST",
+            mode: "cors",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(body)
+        })
+
+        handleResponse(response, onSuccess, onError)
+    }
+    catch {
+        Notifications.AddNotification('Error', `Unhandled exception when loading: ${endpoint}`)
+    }
 }
 
 export async function fetchPut(endpoint, body, onSuccess, onError) {
-    const response = await fetch(backendUrl + endpoint, {
-        method: "PUT",
-        mode: "cors",
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(body)
-    })
+    try {
+        const response = await fetch(backendUrl + endpoint, {
+            method: "PUT",
+            mode: "cors",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(body)
+        })
 
-    if (response.ok)
-        onSuccess(await response.json())
-    else
-        onError(await response.json())
+        handleResponse(response, onSuccess, onError)
+    }
+    catch {
+        Notifications.AddNotification('Error', `Unhandled exception when loading: ${endpoint}`)
+    }
 }
 
 export async function fetchPatch(endpoint, body, onSuccess, onError) {
-    const response = await fetch(backendUrl + endpoint, {
-        method: "PATCH",
-        mode: "cors",
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(body)
-    })
+    try {
+        const response = await fetch(backendUrl + endpoint, {
+            method: "PATCH",
+            mode: "cors",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(body)
+        })
 
-    if (response.ok)
-        onSuccess(await response.json())
-    else
-        onError(await response.json())
+        handleResponse(response, onSuccess, onError)
+    }
+    catch {
+        Notifications.AddNotification('Error', `Unhandled exception when loading: ${endpoint}`)
+    }
 }
 
 export async function fetchDelete(endpoint, body, onSuccess, onError) {
-    const response = await fetch(backendUrl + endpoint, {
-        method: "DELETE",
-        body: JSON.stringify(body),
-        mode: "cors",
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    })
+    try {
+        const response = await fetch(backendUrl + endpoint, {
+            method: "DELETE",
+            body: JSON.stringify(body),
+            mode: "cors",
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
 
-    if (response.ok)
-        onSuccess(await response.json())
-    else
-        onError(await response.json())
+        handleResponse(response, onSuccess, onError)
+    }
+    catch {
+        Notifications.AddNotification('Error', `Unhandled exception when loading: ${endpoint}`)
+    }
 }
-
-//export default { useFetchData, fetchPost };
