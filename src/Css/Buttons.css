@@ -50,9 +50,9 @@
 }
 
 .Button.Gray {
-    --activeColor: var(--darkGray);
-    --hoverColor: var(--lightGray);
-    --defaultColor: var(--gray);
+    --activeColor: #353535;
+    --hoverColor: #5e5e5e;
+    --defaultColor: #484848;
 }
 
 .Button.Green {
