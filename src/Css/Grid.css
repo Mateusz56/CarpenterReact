@@ -80,9 +80,7 @@ div.Grid {
     padding: 5px;
     height: 30px;
     min-width: 50px;
-    background-color: var(--blue);
     border-radius: 7px;
-    border: black solid 1px;
     margin: 5px;
     margin-top: 15px;
 }

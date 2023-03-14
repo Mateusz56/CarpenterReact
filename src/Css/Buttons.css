@@ -1,0 +1,62 @@
+.Button {
+    padding: 5px;
+    height: 40px;
+    min-width: 100px;
+    box-shadow: var(--defaultColor) 0 0 1px 1px;
+    background-color: white;
+    border-radius: 7px;
+    border: none;
+    margin: 5px;
+    --activeColor: var(--darkBlue);
+    --hoverColor: var(--lightBlue);
+    --defaultColor: var(--blue);
+}
+
+.Button:is(:hover) {
+    cursor: pointer;
+    box-shadow: var(--hoverColor) 0 0 1px 1px;
+}
+
+.Button:is(:active) {
+    box-shadow: var(--activeColor) 0 0 1px 1px;
+}
+
+.Button:disabled {
+    box-shadow: var(--darkGray) 0 0 1px 1px;
+    background-color: #f4f4f4;
+    cursor: default;
+}
+
+.Button svg {
+    color: var(--defaultColor);
+}
+
+.Button:is(:hover) svg {
+    color: var(--hoverColor);
+}
+
+.Button:is(:active) svg {
+    color: var(--activeColor);
+}
+
+.Button:disabled svg {
+    color: var(--darkGray);
+}
+
+.Button.Red {
+    --activeColor: var(--darkRed);
+    --hoverColor: var(--lightRed);
+    --defaultColor: var(--red);
+}
+
+.Button.Gray {
+    --activeColor: var(--darkGray);
+    --hoverColor: var(--lightGray);
+    --defaultColor: var(--gray);
+}
+
+.Button.Green {
+    --activeColor: var(--darkGreen);
+    --hoverColor: var(--lightGreen);
+    --defaultColor: var(--green);
+}
