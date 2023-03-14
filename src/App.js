@@ -7,6 +7,8 @@ import { PopupsListContext, RemovePopup, AddPopup } from './Components/PopupsLis
 import ProductsScreen from './Components/ProductsScreen';
 import ReceivingScreen from './Components/ReceivingScreen';
 import NotificationsContainer from './Components/Notifications/NotificationsContainer';
+import { Route, Routes, BrowserRouter } from 'react-router-dom';
+import HomeScreen from './Components/Home/HomeScreen';
 
 function App() {
     const [popupsList, setPopups] = useState([]);
@@ -15,12 +17,17 @@ function App() {
 
     return (
         <div>
-            <PopupsListContext.Provider value={{ popupsList, addPopup, removePopup }}>
-                <PopupsContainer />
-                <NotificationsContainer/>
-                <ReceivingScreen />
-                {/*<ProductsScreen/>*/}
-            </PopupsListContext.Provider>
+            <BrowserRouter>
+                <PopupsListContext.Provider value={{ popupsList, addPopup, removePopup }}>
+                    <PopupsContainer />
+                    <NotificationsContainer />
+                    <Routes>
+                        <Route path="/products" element={<ProductsScreen />} />
+                        <Route path="/receiving" element={<ReceivingScreen />} />
+                        <Route path="/" element={<HomeScreen/>} />
+                    </Routes>
+                </PopupsListContext.Provider>
+            </BrowserRouter>
         </div>
     );
 }

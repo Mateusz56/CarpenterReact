@@ -189,3 +189,25 @@ div.NotificationsContainer {
     transform: translate(-50%);
     left: 50%;
 }
+
+.HomeScreen {
+    display: flex;
+    flex-direction: row;
+}
+
+.ScreenCard {
+    height: 200px;
+    width: 150px;
+    border: black solid 1px;
+    padding: 10px;
+    border-radius: 10px;
+    margin: 15px;
+    display: flex;
+    flex-direction: column;
+    background-color: #ebebeb;
+}
+
+.ScreenCard > svg {
+    flex-grow: 1;
+    margin: auto;
+}
