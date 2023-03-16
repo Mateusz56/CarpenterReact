@@ -6,6 +6,7 @@ import { fetchPost, useFetchData } from "../../Hooks/useFetchData";
 import GridButton from "../Grid/GridButton";
 import SelectedRowsContext from "../Grid/SelectedRowsContext";
 import { PopupsListContext } from "../PopupsListContext";
+import Notifications from "../Notifications/Notifications"
 
 function AddReceivingForm(props) {
     const [lines, setLines] = useState([]);
@@ -49,7 +50,8 @@ function AddReceivingForm(props) {
             () => {
                 props.refreshGrid()
                 removePopup(props.id)
-            }
+            },
+            (json) => Notifications.AddNotification('Error', Object.values(json.errors).map(x => x.join('\n')).join('\n'))
         )
     }
 
