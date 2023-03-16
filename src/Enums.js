@@ -1,3 +1,5 @@
+import { Brush, Gear, Hammer, Nut, Pencil, Screwdriver, Wrench } from "../../node_modules/react-bootstrap-icons/dist/index"
+
 export const ReceivingDocumentStatus = {
     New: 0,
     Accepted: 1,
@@ -19,3 +21,13 @@ export const ProductType = {
     Component: 1,
     Scrap: 2
 }
+
+export const WorkstationsIcons = [
+    <Hammer />,
+    <Brush />,
+    <Pencil />,
+    <Gear />,
+    <Nut />,
+    <Screwdriver />,
+    <Wrench />
+]

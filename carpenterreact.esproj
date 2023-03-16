@@ -14,6 +14,7 @@
   <ItemGroup>
     <Folder Include="src\Components\Notifications\" />
     <Folder Include="src\Components\Home\" />
+    <Folder Include="src\Components\Workstations\" />
     <Folder Include="src\Hooks\" />
   </ItemGroup>
 </Project>

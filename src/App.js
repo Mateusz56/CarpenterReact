@@ -10,6 +10,7 @@ import ReceivingScreen from './Components/ReceivingScreen';
 import NotificationsContainer from './Components/Notifications/NotificationsContainer';
 import { Route, Routes, BrowserRouter } from 'react-router-dom';
 import HomeScreen from './Components/Home/HomeScreen';
+import WorkstationsScreen from './Components/WorkstationsScreen';
 
 function App() {
     const [popupsList, setPopups] = useState([]);
@@ -23,9 +24,10 @@ function App() {
                     <PopupsContainer />
                     <NotificationsContainer />
                     <Routes>
+                        <Route path="/" element={<HomeScreen/>} />
                         <Route path="/products" element={<ProductsScreen />} />
                         <Route path="/receiving" element={<ReceivingScreen />} />
-                        <Route path="/" element={<HomeScreen/>} />
+                        <Route path="/workstations" element={<WorkstationsScreen/>} />
                     </Routes>
                 </PopupsListContext.Provider>
             </BrowserRouter>
