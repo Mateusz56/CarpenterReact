@@ -122,6 +122,7 @@ div.NotificationsContainer {
 .HomeScreen {
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
 }
 
 .ScreenCard {
@@ -141,9 +142,16 @@ div.NotificationsContainer {
     margin: auto;
 }
 
+.WorkstationsContainer {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
 .WorkstationCard {
-    height: 200px;
-    width: 150px;
+    height: 300px;
+    width: 220px;
+    min-width: 210px;
     border: black solid 1px;
     padding: 10px;
     border-radius: 10px;
@@ -151,4 +159,77 @@ div.NotificationsContainer {
     display: flex;
     flex-direction: column;
     background-color: #ebebeb;
+    text-align: left;
+}
+
+.WorkstationCard > svg {
+    flex-grow: 1;
+    margin: auto;
+}
+
+.WorkstationCard div {
+    margin-top: 3px;
+    margin-bottom: 3px;
+}
+
+.WorkstationCard .Description {
+    overflow: hidden;
+    height: 40px;
+}
+
+.WorkstationCard .Description span {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    white-space: pre-wrap;
+    line-height: 20px;
+}
+
+.TileSelectContainer {
+    text-align: left;
+    overflow: auto;
+    white-space: nowrap;
+}
+
+.TileSelect {
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    margin: 5px;
+    border: black solid 1px;
+}
+
+.TileSelect svg {
+    display: block;
+    margin: auto;
+    height: 100%;
+}
+
+.TileSelect.Selected {
+    border: black solid 3px;
+}
+
+.TileSelect.Big {
+    width: 60px;
+    height: 60px;
+}
+
+.WorkstationFilters {
+    margin-top: 4px;
+    margin-bottom: 4px;
+    text-align: left;
+}
+
+.WorkstationFilters input, .WorkstationFilters select {
+    min-height: 25px;
+}
+
+.WorkstationFilters input[type="checkbox"] {
+    width: 25px;
+    transform: translate(0, 8px);
+}
+
+.WorkstationFilters span {
+    margin-left: 15px;
 }
