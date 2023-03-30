@@ -1,4 +1,4 @@
-import { useState, Fragment } from "react";
+import { useState, Fragment, useEffect } from "react";
 import { WorkstationStatus, WorkstationStatusDescription, WorkstationType, WorkstationTypeDescription } from "../../Enums";
 import { AddOrRemoveFromArray } from "../../Utility";
 import TileMultiSelect from "../TileMultiSelect";
@@ -7,6 +7,23 @@ import { WorkstationColors, WorkstationsIcons } from "./WorkstationsConfiguratio
 function WorkstationFilters(props) {
     const [colors, setColors] = useState([]);
     const [icons, setIcons] = useState([]);
+    const [name, setName] = useState('');
+    const [description, setDescription] = useState('');
+    const [allowMultipleOperations, setAllowMultipleOperations] = useState(null);
+    const [type, setType] = useState([]);
+    const [status, setStatus] = useState([]);
+
+    useEffect(() => {
+        props.setFilters({
+            WorkstationColors: colors,
+            WorkstationIcons: icons,
+            NameLike: name,
+            DescriptionLike: description,
+            AllowMultipleOperations: allowMultipleOperations,
+            WorkstationTypes: type,
+            WorkstationStatuses: status
+        })
+    }, [colors, icons, name, description, allowMultipleOperations, type, status])
 
     const toggleColor = (color) => {
         setColors([...AddOrRemoveFromArray(colors, color)])
@@ -37,19 +54,19 @@ function WorkstationFilters(props) {
     return (
         <Fragment>   
             <div className="WorkstationFilters">
-                <span>Name: <input></input></span>
-                <span>Description: <input></input></span>
-                <span>Allow mul. op.: <input type='checkbox'></input></span>
+                <span>Name: <input onChange={(event) => setName(event.target.value)}></input></span>
+                <span>Description: <input onChange={(event) => setDescription(event.target.value)}></input></span>
+                <span>Allow mul. op.: <input onChange={(event) => setAllowMultipleOperations(event.target.checked)} type='checkbox'></input></span>
                 <span>
                     {'Type: '}
-                    <select>
+                    <select onChange={(event) => setType(event.target.value)}>
                         <option value=""></option>
                         {Object.values(WorkstationType).map(x => <option key={x} value={x}>{WorkstationTypeDescription[x]}</option>)}
                     </select>
                 </span>
                 <span>
                     {'Status: '}
-                    <select>
+                    <select onChange={(event) => setStatus(event.target.value)}>
                         <option value=""></option>
                         {Object.values(WorkstationStatus).map(x => <option key={x} value={x}>{WorkstationStatusDescription[x]}</option>)}
                     </select>
