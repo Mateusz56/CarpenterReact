@@ -88,7 +88,7 @@ html {
     height: 16px;
 }
 
-input, select {
+input, select, textarea {
     border: black solid 1px;
 }
 
@@ -232,4 +232,15 @@ div.NotificationsContainer {
 
 .WorkstationFilters span {
     margin-left: 15px;
+}
+
+.WorkstationFilters .MultiselectDropdown {
+    width: 150px;
+    display: inline-block;
+}
+
+.WorkstationCard.Big {
+    width: 300px;
+    height: 400px;
+    margin: auto;
 }

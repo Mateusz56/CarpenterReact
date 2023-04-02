@@ -17,7 +17,6 @@ function WorkstationsScreen() {
     const refreshWorkstations = () => { fetchWorkstations('Workstations', filters) };
 
     useEffect(() => {
-        console.log(filters)
         refreshWorkstations()
     }, [filters])
 
@@ -26,7 +25,7 @@ function WorkstationsScreen() {
             <Title title="Workstations" />
             <WorkstationFilters setFilters={setFilters} />
             <div className="WorkstationsContainer">
-                {workstations ? workstations.map((x) => <WorkstationCard key={x.id} icon={WorkstationsIcons[x.icon](ICON_SIZE)} description={x.description} name={x.name} color={WorkstationColors[x.color]} type={x.type} status={x.status} />) : ''}
+                {workstations ? workstations.map((x) => <WorkstationCard key={x.id} workstationId={x.id} icon={WorkstationsIcons[x.icon](ICON_SIZE)} description={x.description} name={x.name} color={WorkstationColors[x.color]} type={x.type} status={x.status} allowMultipleOperations={x.allowMultipleOperations} />) : ''}
                 <div className="WorkstationCard" onClick={() => addPopup(<AddWorkstationForm id={Date.now} refreshData={refreshWorkstations}></AddWorkstationForm>)}>
                     <Plus size={75} />
                     Add new workstation

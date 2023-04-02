@@ -1,5 +1,6 @@
 .Form input,
-.Form select {
+.Form select,
+.Form textarea {
     padding: 5px;
     margin: 5px;
 }
@@ -19,4 +20,11 @@
     display: flex;
     flex-direction: column;
     text-align: left;
+}
+
+.Form textarea {
+    max-height: calc(100vh - 700px);
+    max-width: 60vw;
+    min-width: 328px;
+    min-height: 30px;
 }

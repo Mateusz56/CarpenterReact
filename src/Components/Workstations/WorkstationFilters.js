@@ -1,6 +1,7 @@
 import { useState, Fragment, useEffect } from "react";
 import { WorkstationStatus, WorkstationStatusDescription, WorkstationType, WorkstationTypeDescription } from "../../Enums";
 import { AddOrRemoveFromArray } from "../../Utility";
+import MultiselectDropdown from "../MultiselectDropdown";
 import TileMultiSelect from "../TileMultiSelect";
 import { WorkstationColors, WorkstationsIcons } from "./WorkstationsConfiguration";
 
@@ -56,20 +57,20 @@ function WorkstationFilters(props) {
             <div className="WorkstationFilters">
                 <span>Name: <input onChange={(event) => setName(event.target.value)}></input></span>
                 <span>Description: <input onChange={(event) => setDescription(event.target.value)}></input></span>
-                <span>Allow mul. op.: <input onChange={(event) => setAllowMultipleOperations(event.target.checked)} type='checkbox'></input></span>
-                <span>
-                    {'Type: '}
-                    <select onChange={(event) => setType(event.target.value)}>
+                <span>{'Allow mul. op.: '}
+                    <select onChange={(event) => setAllowMultipleOperations(event.target.value)} type='checkbox'>
                         <option value=""></option>
-                        {Object.values(WorkstationType).map(x => <option key={x} value={x}>{WorkstationTypeDescription[x]}</option>)}
+                        <option value={true}>Yes</option>
+                        <option value={false}>No</option>
                     </select>
                 </span>
                 <span>
+                    {'Type: '}
+                    <MultiselectDropdown parentStateValue={type} parentSetStateValue={setType} values={Object.values(WorkstationType).map(x => [x, WorkstationTypeDescription[x]])} />
+                </span>
+                <span>
                     {'Status: '}
-                    <select onChange={(event) => setStatus(event.target.value)}>
-                        <option value=""></option>
-                        {Object.values(WorkstationStatus).map(x => <option key={x} value={x}>{WorkstationStatusDescription[x]}</option>)}
-                    </select>
+                    <MultiselectDropdown parentStateValue={status} parentSetStateValue={setStatus} values={Object.values(WorkstationStatus).map(x => [x, WorkstationStatusDescription[x]])} />
                 </span>
             </div>
             <div style={{ marginLeft: '10px' }}>

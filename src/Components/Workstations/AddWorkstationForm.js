@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import Notifications from "../Notifications/Notifications"
 import { PopupsListContext } from "../PopupsListContext";
 import { Formik, Field, Form, ErrorMessage } from "formik";
@@ -11,6 +11,22 @@ function AddWorkstationForm(props) {
     const { removePopup } = useContext(PopupsListContext);
     const [workstationColor, setWorkstationColor] = useState(0);
     const [workstationIcon, setWorkstationIcon] = useState(0);
+    const textareaRef = useRef(null);
+
+    const translateTextAreaOnWidthChange = () => {
+        console.log(textareaRef.current.style.width)
+        const defaultTextAreaWidthPx = 338
+        textareaRef.current.style.transform = `translate(${(defaultTextAreaWidthPx - textareaRef.current.clientWidth) / 2}px, 0)`
+    }
+
+    const resizeObserver = new ResizeObserver(translateTextAreaOnWidthChange)
+
+    useEffect(() => {
+        if (textareaRef.current)
+            resizeObserver.observe(textareaRef.current);
+
+        return () => resizeObserver.disconnect();
+    })
 
     return (
     <div className="Form" style={{ width: '350px' }}>
@@ -36,8 +52,8 @@ function AddWorkstationForm(props) {
                 <Form>
                     <label htmlFor="name">Name</label>
                     <Field id="name" name="name" placeholder="Workstation name" />
-                    <label htmlFor="description">Description</label>
-                    <Field id="description" name="description" placeholder="Workstation description" />
+                        <label htmlFor="description">Description</label>
+                        <Field id="description" name="description" placeholder="Workstation description" as="textarea" innerRef={textareaRef} />
                     <label htmlFor="type">Type</label>
                     <Field id="type" name="type" as="select">
                         {Object.values(WorkstationType).map(x => <option key={x} value={x}>{WorkstationTypeDescription[x]}</option>)}
